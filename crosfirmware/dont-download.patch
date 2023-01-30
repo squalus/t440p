@@ -1,0 +1,44 @@
+diff --git a/util/chromeos/crosfirmware.sh b/util/chromeos/crosfirmware.sh
+index 3d0f0612..056172dd 100755
+--- a/util/chromeos/crosfirmware.sh
++++ b/util/chromeos/crosfirmware.sh
+@@ -121,14 +121,19 @@ extract_coreboot() {
+ 
+ do_one_board() {
+ 	_board=$1
+-	_url=$2
+-	_file=$3
+ 
+-	download_image $_url $_file
++    if [ -z "$RECOVERY_IMAGE_FILE" ]; then
++	    _url=$2
++	    _file=$3
++	    download_image $_url $_file
++    else
++        echo "Using supplied recovery image file: $RECOVERY_IMAGE_FILE"
++        _file="$RECOVERY_IMAGE_FILE"
++    fi
+ 
+ 	extract_partition ROOT-A $_file root-a.ext2
+ 	extract_shellball root-a.ext2 chromeos-firmwareupdate-$_board
+-	rm $_file root-a.ext2
++	rm root-a.ext2
+ 
+ 	extract_coreboot chromeos-firmwareupdate-$_board
+ }
+@@ -157,11 +162,13 @@ if [ "$BOARD" == "all" ]; then
+ 	rm "$CONF"
+ elif [ "$BOARD" != "" ]; then
+ 	CONF=$(mktemp)
+-	get_inventory $CONF
++    if [ -z "$RECOVERY_IMAGE_FILE" ]; then
++	    get_inventory $CONF
++    fi
+ 
+ 	echo Processing board $BOARD
+ 	eval $(grep -i $BOARD -A8 $CONF | grep '\(url=\|file=\)')
+-	do_one_board $BOARD $url $file
++	do_one_board $BOARD ${url-} ${file-}
+ 
+ 	rm "$CONF"
+ else
