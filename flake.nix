@@ -15,7 +15,7 @@
       crosfirmware = callPackage ./crosfirmware {};
 
       # mrc.bin blob
-      haswell-mrc = callPackage ./haswell-mrc.nix { inherit crosfirmware; };
+      mrc = callPackage ./mrc.nix { inherit crosfirmware; };
 
       # grub compiled with coreboot support
       grub-coreboot = callPackage ./grub.nix {
@@ -39,7 +39,7 @@
 
       # coreboot image without any payloads
       coreboot = callPackage ./coreboot {
-        inherit haswell-mrc libreboot me;
+        inherit mrc libreboot me;
       };
 
       # the final rom that can be flashed

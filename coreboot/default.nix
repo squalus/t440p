@@ -1,4 +1,4 @@
-{ callPackage, fetchurl, fetchgit, lib, stdenv, haswell-mrc
+{ callPackage, fetchurl, fetchgit, lib, stdenv, mrc
 , pkg-config, ncurses, m4, bison, flex, zlib, coreboot-toolchain, openssl
 , python3, gnugrep
 , libreboot, me
@@ -37,7 +37,7 @@ stdenv.mkDerivation {
     echo 'CONFIG_GBE_BIN_PATH="${libreboot}/blobs/t440p/gbe.bin"' >> .config
     echo 'CONFIG_IFD_BIN_PATH="${libreboot}/blobs/t440p/ifd.bin"' >> .config
     echo 'CONFIG_ME_BIN_PATH="${me}"' >> .config
-    echo 'CONFIG_MRC_FILE="${haswell-mrc}"' >> .config
+    echo 'CONFIG_MRC_FILE="${mrc}"' >> .config
   '';
 
   buildPhase = ''

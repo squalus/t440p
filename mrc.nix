@@ -1,10 +1,5 @@
 { fetchzip, runCommand, lib, crosfirmware, coreboot-utils }:
 
-let
-
-
-in
-
 runCommand "haswell-mrc-bin" {
   src = fetchzip {
     url = "https://dl.google.com/dl/edgedl/chromeos/recovery/chromeos_12239.92.0_peppy_recovery_stable-channel_mp-v3.bin.zip";

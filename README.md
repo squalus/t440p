@@ -4,7 +4,7 @@ Nix build for ThinkPad T440P coreboot firmware
 
 ### Libreboot
 
-This closely tracks Libreboot. Some blobs, the coreboot config and the pinned revisions of coreboot, grub, and me_cleaner come from Libreboot.
+Some blobs, the coreboot config and the pinned revisions of coreboot, grub, and me_cleaner come from Libreboot.
 
 https://libreboot.org
 
@@ -28,7 +28,7 @@ According to coreboot documentation, the mrc.bin file is non-redistributable and
 https://doc.coreboot.org/northbridge/intel/haswell/mrc.bin.html
 
 ```console
-nix build .#haswell-mrc
+nix build .#mrc
 ```
 
 #### Intel ME
