@@ -1,12 +1,8 @@
-{ callPackage, fetchurl, lib, stdenv, grub2, haswell-mrc-bin
-, pkg-config, ncurses, m4, bison, flex, zlib, toolchain, openssl
-, python3
+{ callPackage, fetchurl, fetchgit, lib, stdenv, haswell-mrc
+, pkg-config, ncurses, m4, bison, flex, zlib, coreboot-toolchain, openssl
+, python3, gnugrep
+, libreboot, me
 }:
-let
-  gbe-bin = "todo";
-  ifd-bin = "todo";
-  me-bin = "todo";
-in
 stdenv.mkDerivation {
 
   name = "coreboot-t440p";
@@ -20,37 +16,35 @@ stdenv.mkDerivation {
     bison
     flex
     zlib
-    toolchain
+    coreboot-toolchain.i386
     openssl
     python3
+    gnugrep
   ];
+
   postPatch = ''
     patchShebangs util/xcompile/xcompile
     patchShebangs util/genbuild_h/genbuild_h.sh
-    patchShebangs util/me_cleaner/me_cleaner.py
+    patchShebangs util/scripts/ucode_h_to_bin.sh
+
+    cp ${libreboot}/resources/coreboot/t440p_12mb/config/libgfxinit_corebootfb .config
+    chmod -R ugo+rw .
+    sed -i '/CONFIG_GBE_BIN_PATH=/d' .config
+    sed -i '/CONFIG_IFD_BIN_PATH=/d' .config
+    sed -i '/CONFIG_ME_BIN_PATH=/d' .config
+    sed -i '/CONFIG_MRC_FILE=/d' .config
+
+    echo 'CONFIG_GBE_BIN_PATH="${libreboot}/blobs/t440p/gbe.bin"' >> .config
+    echo 'CONFIG_IFD_BIN_PATH="${libreboot}/blobs/t440p/ifd.bin"' >> .config
+    echo 'CONFIG_ME_BIN_PATH="${me}"' >> .config
+    echo 'CONFIG_MRC_FILE="${haswell-mrc}"' >> .config
   '';
 
   buildPhase = ''
-    cp ${./config} .config
-    substituteInPlace .config \
-      --subst-var-by haswell-mrc-bin ${haswell-mrc-bin} \
-      --subst-var-by grub2 ${grub2} \
-      --subst-var-by gbe-bin ${gbe-bin} \
-      --subst-var-by ifd-bin ${ifd-bin} \
-      --subst-var-by me-bin ${me-bin}
-
-    cat .config
-
     make -j $NIX_BUILD_CORES
   '';
 
   installPhase = ''
-    mkdir $out
-    dd if=build/coreboot.rom of=$out/8mb.rom bs=1M count=8
-    dd if=build/coreboot.rom of=$out/4mb.rom bs=1M skip=8
+    mv build/coreboot.rom $out
   '';
-
-  passthru = {
-    inherit gbe-bin ifd-bin;
-  };
 }

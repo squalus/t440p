@@ -4,35 +4,48 @@
   outputs = { self, nixpkgs }:
   let
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    libreboot-pins = builtins.fromJSON (builtins.readFile ./libreboot.json);
   in
   with pkgs;
   {
 
     packages.x86_64-linux = rec {
 
-      # script from coreboot that extracts firmware from chromeos recovery images
+      # script from coreboot that extracts mrc.bin from chromeos recovery images
       crosfirmware = callPackage ./crosfirmware {};
 
-      # haswell mrc.bin blob
-      haswell-mrc-bin = callPackage ./haswell-mrc-bin { inherit crosfirmware; };
+      # mrc.bin blob
+      haswell-mrc = callPackage ./haswell-mrc.nix { inherit crosfirmware; };
 
-      # coreboot toolchain that can build a t440p rom
-      toolchain = callPackage ./toolchain {};
-
-      # grub2 coreboot payload
-      grub2 = callPackage ./grub2 {};
-
-      # the final rom that can be flashed
-      rom = callPackage ./coreboot {
-        inherit grub2 haswell-mrc-bin toolchain;
+      # grub compiled with coreboot support
+      grub-coreboot = callPackage ./grub.nix {
+        gnulib-src = fetchgit libreboot-pins.gnulib;
+        src = fetchgit libreboot-pins.grub;
       };
 
-    };
+      # grub coreboot payload
+      grub-payload = callPackage ./grub-payload { inherit grub-coreboot; };
 
-    nixosModules = rec {
-    };
+      # libreboot's pinned rev of me_cleaner
+      me_cleaner = pkgs.me_cleaner.overrideAttrs (old: {
+        src = fetchFromGitHub libreboot-pins.me_cleaner;
+      });
 
-    apps.x86_64-linux = {
+      # lbmk source code
+      libreboot = fetchgit libreboot-pins.libreboot;
+
+      # cleaned intel me rom
+      me = callPackage ./me.nix {};
+
+      # coreboot image without any payloads
+      coreboot = callPackage ./coreboot {
+        inherit haswell-mrc libreboot me;
+      };
+
+      # the final rom that can be flashed
+      rom = callPackage ./rom.nix {
+        inherit coreboot grub-payload;
+      };
     };
 
     devShells.x86_64-linux.default =
@@ -40,17 +53,19 @@
         name = "shell";
         nativeBuildInputs = [
           pkg-config
-          ncurses
+          ncurses5
           m4
           bison
           flex
           zlib
-          self.packages.x86_64-linux.toolchain
+          coreboot-toolchain
           autoconf
           automake
           gettext
           gnulib
           coreboot-utils
+          innoextract
+          freetype
         ];
       };
   };
