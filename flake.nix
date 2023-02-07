@@ -37,14 +37,18 @@
       # cleaned intel me rom
       me = callPackage ./me.nix {};
 
-      # coreboot image without any payloads
-      coreboot = callPackage ./coreboot {
-        inherit mrc libreboot me;
+      # function to build a payload-free coreboot image
+      mkCoreboot = callPackage ./coreboot/mkCoreboot.nix {};
+
+      # coreboot image for the t440p device
+      coreboot-t440p = callPackage ./coreboot/t440p.nix {
+        inherit libreboot me mkCoreboot mrc;
       };
 
-      # the final rom that can be flashed
+      # the final rom with an embedded grub payload. can be flashed directly to the device.
       rom = callPackage ./rom.nix {
-        inherit coreboot grub-payload;
+        inherit grub-payload;
+        coreboot = coreboot-t440p;
       };
     };
 
@@ -58,7 +62,7 @@
           bison
           flex
           zlib
-          coreboot-toolchain
+          coreboot-toolchain.i386
           autoconf
           automake
           gettext
@@ -66,6 +70,7 @@
           coreboot-utils
           innoextract
           freetype
+          gnupg
         ];
       };
   };
