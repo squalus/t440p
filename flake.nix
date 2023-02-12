@@ -19,6 +19,7 @@
 
       # grub compiled with coreboot support
       grub-coreboot = callPackage ./grub.nix {
+        inherit libreboot;
         gnulib-src = fetchgit libreboot-pins.gnulib;
         src = fetchgit libreboot-pins.grub;
       };

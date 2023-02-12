@@ -1,7 +1,7 @@
 { stdenv, coreboot-toolchain
 , autoconf, automake, gettext, pkg-config, unifont
 , bison, flex, python3, freetype
-, src, gnulib-src
+, src, gnulib-src, libreboot
  }:
 stdenv.mkDerivation {
 
@@ -11,7 +11,11 @@ stdenv.mkDerivation {
 
   inherit src;
 
-  patchPhase = ''
+  patches = [
+    "${libreboot}/resources/grub/patches/0001-mitigate-grub-s-missing-characters-for-borders-arrow.patch"
+  ];
+
+  postPatch = ''
     cp -r ${gnulib-src} gnulib
     chmod -R a+w .
     patchShebangs .
