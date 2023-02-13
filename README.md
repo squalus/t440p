@@ -37,7 +37,9 @@ nix build .#mrc
 
 Most of the Intel Management Engine is removed from the blob using me_cleaner.
 
-### ROM
+### Basic ROM
+
+The basic ROM is built with a fully sandboxed Nix build. It's very similar to the default Libreboot configuration.
 
 ```console
 nix build .#rom
@@ -51,3 +53,25 @@ nix build .#rom
 
 Intel ME stops internal flashing (using flashrom) from working. So the first flash must be done externally.
 
+### Secure boot ROM
+
+There's a secure boot version of the ROM available. The public key is not included. It must be embedded manualy outside the Nix build.
+
+```console
+nix build .#rom-securegrub
+cp result/coreboot.bin .
+cbfstool coreboot.bin add -n boot.key -f mypubkey.pub -t raw
+dd if=coreboot.bin of=4mb.rom bs=1M skip=8
+dd if=coreboot.bin of=8mb.rom bs=1M count=8
+```
+
+Grub verifies signatures of boot files. All files that grub loads must have a corresponding .sig file. This includes grub.cfg, kernels, initrds, etc.
+
+Grub is set to disallow interactive editing in this mode. Invalid signatures or other boot problems will result in an unbootable system until the ROM is externally reflashed.
+
+Users may want to customize the boot configuration in `grub-payload/grub-secureboot.cfg`.
+
+### Known issues
+
+- Grub does not detect ahci disks after a soft reboot
+- Internal flashing is allowed. This can be a bug or a feature depending on your perspective. It's convenient but less secure.

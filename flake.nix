@@ -48,7 +48,21 @@
 
       # the final rom with an embedded grub payload. can be flashed directly to the device.
       rom = callPackage ./rom.nix {
-        inherit grub-payload;
+        payload = grub-payload;
+        cbfs-files = {
+          "grub.cfg" = ./grub-payload/grub.cfg;
+          "grub-test.cfg" = ./grub-payload/grub-test.cfg;
+        };
+        coreboot = coreboot-t440p;
+      };
+
+      # a rom with grub-enforced signature checking. a public key must be embedded after the build.
+      # example: cbfstool coreboot.bin add -n boot.key -f mypubkey.pub -t raw
+      rom-securegrub = callPackage ./rom.nix {
+        payload = grub-payload;
+        cbfs-files = {
+          "grub.cfg" = ./grub-payload/grub-secureboot.cfg;
+        };
         coreboot = coreboot-t440p;
       };
     };
