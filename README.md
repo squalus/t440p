@@ -55,7 +55,7 @@ Intel ME stops internal flashing (using flashrom) from working. So the first fla
 
 ### Secure boot ROM
 
-There's a secure boot version of the ROM available. The public key is not included. It must be embedded manualy outside the Nix build.
+There's a secure boot version of the ROM available. The public key is not included. It must be embedded manually outside the Nix build.
 
 ```console
 nix build .#rom-securegrub
