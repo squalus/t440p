@@ -1,8 +1,8 @@
 {
     "libreboot": {
         "url": "https://notabug.org/libreboot/lbmk",
-        "rev": "6b4a14ce4ac7557bacf607b80cb61d45cb5e8815",
-        "hash": "sha256-jwQ0S5jYlfofdRoDjRkQ4LO28Rt9EFpAJQp1nYFkhog="
+        "rev": "36982ab5f43953928a2a826efafce140907fc97d",
+        "hash": "sha256-igzCFl+i3wowjxmIRNQ9pOWvTX+srqdUp0bVNufid9A="
     },
     "me_cleaner": {
         "owner": "corna",

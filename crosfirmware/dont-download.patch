@@ -1,10 +1,10 @@
 diff --git a/util/chromeos/crosfirmware.sh b/util/chromeos/crosfirmware.sh
-index 25c88fa346..46ada19844 100755
+index 3d0f0612f8..d374dfc836 100755
 --- a/util/chromeos/crosfirmware.sh
 +++ b/util/chromeos/crosfirmware.sh
-@@ -96,14 +96,19 @@ extract_coreboot()
- do_one_board()
- {
+@@ -121,14 +121,19 @@ extract_coreboot() {
+ 
+ do_one_board() {
  	_board=$1
 -	_url=$2
 -	_file=$3
@@ -26,20 +26,19 @@ index 25c88fa346..46ada19844 100755
  
  	extract_coreboot chromeos-firmwareupdate-$_board
  }
-@@ -132,11 +137,14 @@ if [ "$BOARD" == "all" ]; then
+@@ -157,11 +162,13 @@ if [ "$BOARD" == "all" ]; then
  	rm "$CONF"
  elif [ "$BOARD" != "" ]; then
- 	CONF=$( mktemp )
+ 	CONF=$(mktemp)
 -	get_inventory $CONF
 +    if [ -z "$RECOVERY_IMAGE_FILE" ]; then
 +       get_inventory $CONF
 +    fi
-+
  
  	echo Processing board $BOARD
- 	eval $( grep $BOARD $CONF | grep '\(url=\|file=\)' )
+ 	eval $(grep -i $BOARD -A8 $CONF | grep '\(url=\|file=\)')
 -	do_one_board $BOARD $url $file
-+    do_one_board $BOARD ${url-} ${file-}
++	do_one_board $BOARD ${url-} ${file-}
  
  	rm "$CONF"
  else

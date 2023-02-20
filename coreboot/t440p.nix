@@ -14,6 +14,8 @@ let config = stdenv.mkDerivation {
     echo 'CONFIG_IFD_BIN_PATH="${libreboot}/blobs/t440p/ifd.bin"' >> $out
     echo 'CONFIG_ME_BIN_PATH="${me}"' >> $out
     echo 'CONFIG_MRC_FILE="${mrc}"' >> $out
+
+    sed -i 's,src/mainboard/$(MAINBOARDDIR)/data.vbt,src/mainboard/$(MAINBOARDDIR)/variants/$(CONFIG_VARIANT_DIR)/data.vbt,g' $out
   '';
   };
 in

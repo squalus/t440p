@@ -2,8 +2,8 @@
 fetchgit {
   url = "https://review.coreboot.org/coreboot";
   # todo - extract from libreboot resources/coreboot/default/board.cfg
-  rev = "b2e8bd83647f664260120fdfc7d07cba694dd89e"; # libreboot's rev
-  hash = "sha256-1mDw+LrCspWUOYtGRVjXDYVsNHhFKUdSPmkLJou20Gg=";
+  rev = "e70bc423f9a2e1d13827f2703efe1f9c72549f20"; # libreboot's rev
+  hash = "sha256-WVUls0emGKmAI5ByI61BMJJExzCMRSp2wpCbcOqaoq4=";
   fetchSubmodules = true;
   leaveDotGit = true;
   postFetch = ''
