@@ -19,5 +19,10 @@
         "url": "https://git.savannah.gnu.org/git/gnulib.git",
         "rev": "9f48fb992a3d7e96610c4ce8be969cff2d61a01b",
         "hash": "sha256-mzbF66SNqcSlI+xmjpKpNMwzi13yEWoc1Fl7p4snTto="
+    },
+    "seabios": {
+        "url": "https://review.coreboot.org/seabios",
+        "rev": "64f37cc530f144e53c190c9e8209a51b58fd5c43",
+        "hash": "sha256-mdVTnbUmMjJ8AMsXSCfqX2KRB47VHa+qQSVaZ6p6qS4="
     }
 }

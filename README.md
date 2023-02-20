@@ -37,7 +37,7 @@ nix build .#mrc
 
 Most of the Intel Management Engine is removed from the blob using me_cleaner.
 
-### Basic ROM
+### Basic Grub ROM
 
 The basic ROM is built with a fully sandboxed Nix build. It's very similar to the default Libreboot configuration.
 
@@ -53,7 +53,7 @@ nix build .#rom
 
 Intel ME stops internal flashing (using flashrom) from working. So the first flash must be done externally.
 
-### Secure boot ROM
+### Secure Grub ROM
 
 There's a secure boot version of the ROM available. The public key is not included. It must be embedded manually outside the Nix build.
 
@@ -70,6 +70,12 @@ Grub verifies signatures of boot files. All files that grub loads must have a co
 Grub is set to disallow interactive editing in this mode. Invalid signatures or other boot problems will result in an unbootable system until the ROM is externally reflashed.
 
 Users may want to customize the boot configuration in `grub-payload/grub-secureboot.cfg`.
+
+### SeaBIOS ROM
+
+```console
+nix build .#rom-seabios
+```
 
 ### Known issues
 

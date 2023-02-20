@@ -65,6 +65,25 @@
         };
         coreboot = coreboot-t440p;
       };
+
+      seabios = callPackage ./seabios.nix {
+        src = fetchgit libreboot-pins.seabios;
+        inherit libreboot;
+      };
+
+      rom-seabios = callPackage ./rom.nix {
+        coreboot = coreboot-t440p;
+        payload = "${seabios}/seabios_libgfxinit.elf";
+        cbfs-files = {
+          "vgaroms/seavgabios.bin" = "${seabios}/seavgabios.bin";
+        };
+        cbfs-ints = {
+          "etc/pci-optionrom-exec" = 2;
+          "etc/ps2-keyboard-spinup" = 3000;
+          "etc/optionroms-checksum" = 0;
+          "etc/only-load-option-roms" = 0;
+        };
+      };
     };
 
     devShells.x86_64-linux.default =
