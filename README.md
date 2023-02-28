@@ -29,6 +29,8 @@ According to coreboot documentation, the mrc.bin file is non-redistributable and
 
 https://doc.coreboot.org/northbridge/intel/haswell/mrc.bin.html
 
+Progress on replacement: https://ticket.coreboot.org/issues/461
+
 ```console
 nix build .#mrc
 ```
@@ -73,8 +75,18 @@ Users may want to customize the boot configuration in `grub-payload/grub-secureb
 
 ### SeaBIOS ROM
 
+This ROM boots to SeaBIOS.
+
 ```console
 nix build .#rom-seabios
+```
+
+### Linux ROM
+
+This ROM boots to a tinyconfig Linux kernel and includes Busybox in the initramfs.
+
+```console
+nix build .#rom-tinylinux-busybox
 ```
 
 ### Known issues

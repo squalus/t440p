@@ -48,7 +48,7 @@
 
       # the final rom with an embedded grub payload. can be flashed directly to the device.
       rom = callPackage ./rom.nix {
-        payload = grub-payload;
+        elfPayload = grub-payload;
         cbfs-files = {
           "grub.cfg" = ./grub-payload/grub.cfg;
           "grub-test.cfg" = ./grub-payload/grub-test.cfg;
@@ -59,7 +59,7 @@
       # a rom with grub-enforced signature checking. a public key must be embedded after the build.
       # example: cbfstool coreboot.bin add -n boot.key -f mypubkey.pub -t raw
       rom-securegrub = callPackage ./rom.nix {
-        payload = grub-payload;
+        elfPayload = grub-payload;
         cbfs-files = {
           "grub.cfg" = ./grub-payload/grub-secureboot.cfg;
         };
@@ -73,7 +73,7 @@
 
       rom-seabios = callPackage ./rom.nix {
         coreboot = coreboot-t440p;
-        payload = "${seabios}/seabios_libgfxinit.elf";
+        elfPayload = "${seabios}/seabios_libgfxinit.elf";
         cbfs-files = {
           "vgaroms/seavgabios.bin" = "${seabios}/seavgabios.bin";
         };
@@ -83,6 +83,28 @@
           "etc/optionroms-checksum" = 0;
           "etc/only-load-option-roms" = 0;
         };
+      };
+
+      # a tinyconfig linux kernel for t440p
+      tinylinux = callPackage ./tinylinux {};
+
+      # small initramfs that include busybox
+      busybox-initramfs = callPackage ./busybox-initramfs {
+        inherit (pkgsCross.gnu32.pkgsStatic) busybox;
+      };
+
+      # qemu runner script for the tinylinux kernel
+      tinylinux-qemu-runner = writeScriptBin "tinylinux-qemu-runner" ''
+        #!${runtimeShell}
+        ${qemu}/bin/qemu-system-x86_64 -enable-kvm -kernel ${tinylinux} -initrd ${busybox-initramfs} -serial stdio
+      '';
+
+      # rom that boots to a linux/busybox environment
+      rom-tinylinux-busybox = callPackage ./rom.nix {
+        coreboot = coreboot-t440p;
+        linuxKernelPayload = tinylinux;
+        linuxInitrd = busybox-initramfs;
+        linuxCmdline = "earlyprintk=vga,keep ignore_loglevel init=/init";
       };
     };
 
