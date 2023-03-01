@@ -1,8 +1,8 @@
 {
     "libreboot": {
         "url": "https://notabug.org/libreboot/lbmk",
-        "rev": "36982ab5f43953928a2a826efafce140907fc97d",
-        "hash": "sha256-igzCFl+i3wowjxmIRNQ9pOWvTX+srqdUp0bVNufid9A="
+        "rev": "6421af5dcb28734da4b1e8a894aee632aa70a64a",
+        "hash": "sha256-Ln+BVeqxFdAvcau+bAyiiS3VSzM7XanRQWpBQjW6Epg="
     },
     "me_cleaner": {
         "owner": "corna",
@@ -12,8 +12,8 @@
     },
     "grub": {
         "url": "https://git.savannah.gnu.org/r/grub.git/",
-        "rev": "1514678888595ef41a968a0c69b7ff769edd1e9c",
-        "hash": "sha256-lnlRLxUBaykEnppNZjHdJXCbQeeZ2nqaxIT5D3AE6C4="
+        "rev": "f7564844f82b57078d601befadc438b5bc1fa01b",
+        "hash": "sha256-eYcYjDdz6ML7QSATPbf0bbnYq9pymYIFYYMxhuHGltE="
     },
     "gnulib": {
         "url": "https://git.savannah.gnu.org/git/gnulib.git",
@@ -22,7 +22,7 @@
     },
     "seabios": {
         "url": "https://review.coreboot.org/seabios",
-        "rev": "64f37cc530f144e53c190c9e8209a51b58fd5c43",
-        "hash": "sha256-mdVTnbUmMjJ8AMsXSCfqX2KRB47VHa+qQSVaZ6p6qS4="
+        "rev": "ea1b7a0733906b8425d948ae94fba63c32b1d425",
+        "hash": "sha256-G6VtklsHc5qmgyvQw6e+0z/ZJ7mNfcQKKjp1/B5MoEU="
     }
 }
