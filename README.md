@@ -83,7 +83,7 @@ nix build .#rom-seabios
 
 ### Linux ROM
 
-This ROM boots to a tinyconfig Linux kernel and includes Busybox in the initramfs.
+An example of a booting Linux kernel with a Busybox shell. There's no bootloader.
 
 ```console
 nix build .#rom-tinylinux-busybox
