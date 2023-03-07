@@ -106,6 +106,9 @@
         linuxInitrd = busybox-initramfs;
         linuxCmdline = "earlyprintk=vga,keep ignore_loglevel init=/init";
       };
+
+      # bootable disk image for the stock firmware. this is the only way to update the embedded controller firmware.
+      lenovo-fw = callPackage ./lenovo-fw {};
     };
 
     devShells.x86_64-linux.default =
