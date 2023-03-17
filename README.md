@@ -14,8 +14,8 @@ The T440p requires several blobs to boot.
 
 | blob | purpose | size | source |
 |------|---------|------|--------|
-| ifd.bin | flash file layout | 8,192 bytes | libreboot |
-| gbe.bin | Ethernet configuration | 4,096 bytes | libreboot |
+| ifd.bin | flash file layout | 4,096 bytes | donor laptop |
+| gbe.bin | Ethernet configuration | 8,192 bytes | libreboot |
 | mrc.bin | DRAM initialization code | 190,180 bytes | google |
 | ME9.1_5M_Production.bin | Intel ME | 122,880 bytes (cleaned) | lenovo |
 
