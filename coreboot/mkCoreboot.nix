@@ -26,9 +26,14 @@ stdenv.mkDerivation {
     patchShebangs util/xcompile/xcompile
     patchShebangs util/genbuild_h/genbuild_h.sh
     patchShebangs util/scripts/ucode_h_to_bin.sh
+    patchShebangs util/me_cleaner/me_cleaner.py
 
     cp ${config} .config
     chmod -R u+w .
+  '';
+
+  preConfigure = ''
+    make oldconfig
   '';
 
   buildPhase = ''
@@ -38,6 +43,7 @@ stdenv.mkDerivation {
   installPhase = ''
     mv build/coreboot.rom $out
   '';
+
   passthru = {
     inherit config;
   };
