@@ -109,6 +109,19 @@
 
       # bootable disk image for the stock firmware. this is the only way to update the embedded controller firmware.
       lenovo-fw = callPackage ./lenovo-fw {};
+
+      # all roms for ci
+      default = stdenv.mkDerivation {
+        name = "t440p-all-fw";
+        dontBuild = true;
+        dontUnpack = true;
+        installPhase = ''
+          mkdir $out
+          cp -r ${rom} $out/rom-grub-basic
+          cp -r ${rom-securegrub} $out/rom-grub-secure
+          cp -r ${rom-seabios} $out/rom-seabios
+        '';
+      };
     };
 
     devShells.x86_64-linux.default =
