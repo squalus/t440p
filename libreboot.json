@@ -23,6 +23,6 @@
     "seabios": {
         "url": "https://review.coreboot.org/seabios",
         "rev": "ea1b7a0733906b8425d948ae94fba63c32b1d425",
-        "hash": "sha256-G6VtklsHc5qmgyvQw6e+0z/ZJ7mNfcQKKjp1/B5MoEU="
+        "hash": "sha256-J2FuT+FXn9YoFLSfxDOxyKZvKrys59a6bP1eYvEXVNU="
     }
 }
