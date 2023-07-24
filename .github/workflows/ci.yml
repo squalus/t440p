@@ -13,7 +13,10 @@
         },
         {
           "name": "Install Nix",
-          "uses": "DeterminateSystems/nix-installer-action@main"
+          "uses": "DeterminateSystems/nix-installer-action@v4",
+          "with": {
+            "diagnostic-endpoint": ""
+          }
         },
         {
           "name": "Run `nix build`",
